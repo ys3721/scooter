@@ -9,6 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
  * @author: Yao Shuai
@@ -20,7 +21,7 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     private int remotePort;
 
-    private Channel outChannel;
+    private Channel outboundChannel;
 
     public HexDumpProxyFrontendHandler(String remoteAddress, int remotePort) {
         this.remoteAddress = remoteAddress;
@@ -34,25 +35,26 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws InterruptedException {
+        final Channel inboundChannel = ctx.channel();
         Bootstrap bootstrap = new Bootstrap();
-        bootstrap.group(ctx.channel().eventLoop());
-        bootstrap.channel(NioServerSocketChannel.class);
-        bootstrap.handler(new HexDumpProxyBackendHandler(ctx.channel()));
+        bootstrap.group(inboundChannel.eventLoop());
+        bootstrap.channel(NioSocketChannel.class);
+        bootstrap.handler(new HexDumpProxyBackendHandler(inboundChannel));
         bootstrap.option(ChannelOption.AUTO_READ, false);
-        ChannelFuture future = bootstrap.connect(remoteAddress, remotePort).sync();
-        this.outChannel = future.channel();
-        future.addListener((ChannelFutureListener) future1 -> {
-            if (future1.isSuccess()) {
-                ctx.channel().read();
-            } else {
-                ctx.channel().close();
-            }
+        ChannelFuture f = bootstrap.connect(remoteAddress, remotePort);
+        this.outboundChannel = f.channel();
+        f.addListener(future -> {
+                if(future.isSuccess()) {
+                    inboundChannel.read();
+                } else {
+                    inboundChannel.close();
+                }
         });
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ChannelFuture f = this.outChannel.writeAndFlush(msg);
+        ChannelFuture f = this.outboundChannel.writeAndFlush(msg);
         f.addListener((ChannelFutureListener) future -> {
             if (future.isSuccess()) {
                 ctx.channel().read();
@@ -64,9 +66,9 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        if (outChannel != null) {
-            if(outChannel.isActive()) {
-                outChannel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
+        if (outboundChannel != null) {
+            if(outboundChannel.isActive()) {
+                outboundChannel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
             }
         }
     }

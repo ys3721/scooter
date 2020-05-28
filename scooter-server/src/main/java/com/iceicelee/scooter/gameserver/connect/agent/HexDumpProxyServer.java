@@ -74,6 +74,7 @@ public class HexDumpProxyServer {
         } catch (Exception e) {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("java -jar HexDumpProxyServer.jar", options);
+            System.exit(-1);
         }
     }
 }
