@@ -1,0 +1,15 @@
+syntax = "proto2";
+
+package scooter;
+
+option java_package = "com.iceicelee.scooter.gameserver.connect.reverse.message";
+option java_outer_classname = "HandshakeConsultMsg";
+
+
+message CSHandshakeMsg {
+    required int32 port = 1;
+}
+
+message SCHandshakeMsg {
+    required string handshakeResult = 1;
+}

@@ -64,8 +64,8 @@ public class HexDumpProxyServer {
         CommandLineParser parser = new DefaultParser();
         Options options = new Options();
         options.addOption("l","localPort", true, "listen to the local port");
-        options.addOption("h","remoteHost", true, "send to the local port");
-        options.addOption("p","remotePort", true, "send to the local port");
+        options.addOption("h","remoteHost", true, "send to the remoteHost address");
+        options.addOption("p","remotePort", true, "send to the remote port");
         try {
             CommandLine cmd = parser.parse(options, args);
             this.localPort = Integer.parseInt(cmd.getOptionValue("l"));
