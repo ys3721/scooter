@@ -1,5 +1,6 @@
 package com.iceicelee.scooter.gameserver.connect.reverse;
 
+import com.iceicelee.scooter.gameserver.logger.Loggers;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -20,22 +21,32 @@ public class ReverseProxyServer {
 
     private int listenPort;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ReverseProxyServer reversProxyServer = new ReverseProxyServer();
         reversProxyServer.readConfig(args);
         reversProxyServer.start();
     }
 
-    private void start() {
+    private void start() throws InterruptedException {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
-        ServerBootstrap serverBootstrap = new ServerBootstrap();
-        serverBootstrap.group(bossGroup, workerGroup)
-                .channel(NioServerSocketChannel.class)
-                .handler(new LoggingHandler())
-                .childHandler(new ReverseProxyHandlerInitializer())
-                .childOption(ChannelOption.AUTO_READ, false)
-                .bind(this.listenPort);
+        EventLoopGroup workGroup = new NioEventLoopGroup();
+        try {
+            ServerBootstrap b = new ServerBootstrap();
+            try {
+                b.group(bossGroup, workGroup)
+                        .channel(NioServerSocketChannel.class)
+                        .handler(new LoggingHandler())
+                        .childHandler(new ReverseProxyHandlerInitializer())
+                        .childOption(ChannelOption.AUTO_READ, true)
+                        .bind(listenPort).sync().channel().closeFuture().sync();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } finally {
+            bossGroup.shutdownGracefully();
+            workGroup.shutdownGracefully();
+        }
+        Loggers.REVERSE_LOGGER.info("Begin ！！！！！！！");
     }
 
     private void readConfig(String[] args) {
