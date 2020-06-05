@@ -1,10 +1,15 @@
-package com.iceicelee.scooter.gameserver.connect.reverse;
+package com.iceicelee.scooter.gameserver.connect.reverse.server;
 
 import com.iceicelee.scooter.gameserver.connect.reverse.message.HandshakeConsultMsg.CSHandshakeMsg;
 import com.iceicelee.scooter.gameserver.logger.Loggers;
+import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LoggingHandler;
 
 /**
  * @author: Yao Shuai
@@ -24,11 +29,28 @@ public class ReverseServerHandler extends ChannelInboundHandlerAdapter {
         int oldPort = port;
         this.port = csHandshakeMsg.getPort();
         Loggers.REVERSE_LOGGER.info(oldPort + " port is " + port);
+        //建立一个port的监听
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup workGroup = new NioEventLoopGroup();
+        try {
+            ServerBootstrap b = new ServerBootstrap();
+            try {
+                b.group(bossGroup, workGroup)
+                        .channel(NioServerSocketChannel.class)
+                        .handler(new LoggingHandler())
+                        .childHandler(new ProxyInitializer())
+                        .bind(port).sync().channel().closeFuture().sync();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } finally {
+            bossGroup.shutdownGracefully();
+            workGroup.shutdownGracefully();
+        }
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
-        System.out.println(cause);
     }
 }

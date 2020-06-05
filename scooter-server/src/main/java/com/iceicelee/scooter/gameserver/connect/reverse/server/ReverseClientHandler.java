@@ -1,4 +1,4 @@
-package com.iceicelee.scooter.gameserver.connect.reverse;
+package com.iceicelee.scooter.gameserver.connect.reverse.server;
 
 import com.iceicelee.scooter.gameserver.connect.reverse.message.HandshakeConsultMsg.CSHandshakeMsg;
 import io.netty.buffer.ByteBuf;
@@ -11,16 +11,14 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  */
 public class ReverseClientHandler extends ChannelInboundHandlerAdapter {
 
+    private int clientPort = 3306;
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-            for (int i = 0; i < 1000100; i++) {
-                CSHandshakeMsg msg = CSHandshakeMsg.newBuilder().setPort(i).build();
-                byte[] msgByte = msg.toByteArray();
-                ByteBuf buf = ctx.alloc().buffer(msgByte.length).writeBytes(msgByte);
-                ctx.channel().writeAndFlush(buf);
-                Thread.sleep(100);
-            }
-
+        CSHandshakeMsg msg = CSHandshakeMsg.newBuilder().setPort(clientPort).build();
+        byte[] msgByte = msg.toByteArray();
+        ByteBuf buf = ctx.alloc().buffer(msgByte.length).writeBytes(msgByte);
+        ctx.channel().writeAndFlush(buf);
     }
 
     @Override

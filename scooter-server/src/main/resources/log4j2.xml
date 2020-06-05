@@ -6,8 +6,8 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="com.iceicelee" level="DEBUG"/>
-        <Root level="DEBUG">
+        <Logger name="scooter" level="DEBUG"/>
+        <Root level="ERROR">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
