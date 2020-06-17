@@ -15,4 +15,11 @@ public class Loggers {
     public static final Logger REVERSE_CLIENT = LogManager.getLogger("scooter.reverse.client");
 
     public static final Logger ECHO = LogManager.getLogger("scooter.echo");
+
+    public static final  Logger GAME_LOGGER = LogManager.getLogger("scooter.gameserver");
+
+    public static final  Logger MSG_LOGGER = LogManager.getLogger("scooter.msg");
+
+    public static final  Logger QUEUE_LOG = LogManager.getLogger("scooter.queue");
+
 }

@@ -1,8 +1,9 @@
 package com.iceicelee.scooter.gameserver;
 
-import com.iceicelee.scooter.gameserver.connect.Connector;
-import org.apache.logging.log4j.Logger;
+import com.iceicelee.scooter.gameserver.logger.Loggers;
+import com.iceicelee.scooter.gameserver.processor.ServerMessageProcessor;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author: Yao Shuai
@@ -10,26 +11,29 @@ import org.apache.logging.log4j.LogManager;
  */
 public class ScooterServer {
 
-	private static final Logger LOGGER = LogManager.getLogger(ScooterServer.class);
+
+	/** 服务器进程 */
+	private ServerMessageProcessor serverProcess;
+
+	private static final Logger LOGGER = Loggers.GAME_LOGGER;
 
 	public static void main(String[] args) {
-		System.out.println("ScooterServer begin!");
-		String thing = args.length > 0 ? args[0] : "world";
-		LOGGER.info("Hello, {}!", thing);
-		LOGGER.debug("Got calculated value only if debug enabled: {}", () -> doSomeCalculation());
-
+		LOGGER.info("ScooterServer begin start! good luck!");
 		ScooterServer scooter = new ScooterServer();
-		scooter.beginConnector();
+		scooter.ignite();
+		scooter.launch();
+	}
+
+	private void ignite() {
+		serverProcess = new ServerMessageProcessor();
+	}
+
+	private void launch() {
+
 	}
 
 	private static Object doSomeCalculation() {
 		return "yao shuai";
 	}
-
-	private void beginConnector() {
-		LOGGER.error("Got calculated value only if debug enabled: {}", () -> doSomeCalculation());
-		Connector connector = new Connector();
-	}
-
 
 }
