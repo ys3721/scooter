@@ -62,6 +62,6 @@ public class ReverseProxyServer {
     }
 
     public void sendSomeComming(int port) {
-        this.consultService.comeConnectMeAt(port);
+        this.consultService.comeConnectMeAt(port, listenPort);
     }
 }

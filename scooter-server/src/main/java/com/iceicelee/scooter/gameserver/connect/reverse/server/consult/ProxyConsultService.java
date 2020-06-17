@@ -57,8 +57,14 @@ public class ProxyConsultService {
         this.listenPort = listenPort;
     }
 
-    public void comeConnectMeAt(int passivePort) {
-        byte[] scHandshakeMsg = SCHandshakeMsg.newBuilder().setHandshakeResult(passivePort+",8080").build().toByteArray();
+    /**
+     * 我在passive port等他来链接我
+     *
+     * @param passivePort
+     * @param listenPort
+     */
+    public void comeConnectMeAt(int passivePort, int listenPort) {
+        byte[] scHandshakeMsg = SCHandshakeMsg.newBuilder().setHandshakeResult(passivePort+","+listenPort).build().toByteArray();
         ByteBuf byteBuf = this.getConsultChannel().alloc().buffer(scHandshakeMsg.length);
         byteBuf.writeBytes(scHandshakeMsg);
         this.getConsultChannel().writeAndFlush(byteBuf);
