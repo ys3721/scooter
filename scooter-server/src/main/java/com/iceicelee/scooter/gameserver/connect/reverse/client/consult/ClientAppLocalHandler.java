@@ -5,6 +5,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
+ * Client server connect local application handler.
+ *
  * @author: Yao Shuai
  * @date: 2020/6/4 17:20
  */
@@ -29,5 +31,10 @@ public class ClientAppLocalHandler extends ChannelInboundHandlerAdapter {
 
     public void setCommunacationChannel(Channel communacationChannel) {
         this.communacationChannel = communacationChannel;
+    }
+
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+            throws Exception {
+        ctx.close();
     }
 }

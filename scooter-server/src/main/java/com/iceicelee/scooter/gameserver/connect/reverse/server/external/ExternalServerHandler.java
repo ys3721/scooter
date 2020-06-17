@@ -74,16 +74,17 @@ public class ExternalServerHandler extends ChannelInboundHandlerAdapter {
         ctx.channel().read();
     }
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
-    }
-
     public Channel getInnerChannel() {
         return innerChannel;
     }
 
     public void setInnerChannel(Channel innerChannel) {
         this.innerChannel = innerChannel;
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+            throws Exception {
+        ctx.close();
     }
 }

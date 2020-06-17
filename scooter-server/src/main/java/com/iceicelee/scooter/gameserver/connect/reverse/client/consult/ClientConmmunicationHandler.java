@@ -33,4 +33,10 @@ public class ClientConmmunicationHandler extends ChannelInboundHandlerAdapter {
         appChannel.read();
     }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+            throws Exception {
+        ctx.close();
+    }
+
 }
