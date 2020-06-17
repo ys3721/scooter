@@ -57,15 +57,15 @@ public class HexDumpProxyServer {
             bossGroup.shutdownGracefully();
             workGroup.shutdownGracefully();
         }
-        loggers.debug("Begin ！！！！！！！");
+        loggers.debug("Begin.....!");
     }
 
     private void initAddress(String[] args) {
         CommandLineParser parser = new DefaultParser();
         Options options = new Options();
-        options.addOption("l","localPort", true, "Listen to the local port. 监听的本地端口。");
-        options.addOption("h","remoteHost", true, "Send to the remoteHost address. 转发到的远程地址。");
-        options.addOption("p","remotePort", true, "send to the remote port. 转发到的远程端口。");
+        options.addOption("l","localPort", true, "Listen to the local port，will be transform to remote ip and address.");
+        options.addOption("h","remoteHost", true, "Send to the remoteHost address.");
+        options.addOption("p","remotePort", true, "send to the remote port.");
         try {
             CommandLine cmd = parser.parse(options, args);
             this.localPort = Integer.parseInt(cmd.getOptionValue("l"));
@@ -74,8 +74,7 @@ public class HexDumpProxyServer {
         } catch (Exception e) {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("sh scooter-server -h172.105.231.66 -p8080 -l80" +
-                    "\nProxy local 80 to remote 172.105.231.66 8080 port." +
-                    "\n就是把本地的80代理到远程的8080端口.", options);
+                    "\nProxy local 80 to remote 172.105.231.66 8080 port.", options);
             System.exit(-1);
         }
     }
