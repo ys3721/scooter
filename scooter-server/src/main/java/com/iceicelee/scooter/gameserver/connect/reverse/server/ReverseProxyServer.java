@@ -40,7 +40,8 @@ public class ReverseProxyServer {
     private void readConfig(String[] args) {
         CommandLineParser parser = new DefaultParser();
         Options options = new Options();
-        options.addOption("l","localPort", true, "proxy the port to the local port.");
+        options.addOption("l", "localPort", true,
+                "proxy the port to the local port.");
         try {
             CommandLine cmd = parser.parse(options, args);
             this.listenPort = Integer.parseInt(cmd.getOptionValue("l"));
@@ -48,7 +49,8 @@ public class ReverseProxyServer {
             HelpFormatter formatter = new HelpFormatter();
             String header = "This app will listen the port you give:\n\n";
             String footer = "\nPlease report issues at http://www.iceicelee.com/issues";
-            formatter.printHelp("java -jar ReversProxyServer.jar", header, options, footer, true);
+            formatter.printHelp("java -jar ReversProxyServer.jar",
+                    header, options, footer, true);
             System.exit(-1);
         }
     }

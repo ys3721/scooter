@@ -14,7 +14,7 @@ dependencies {
 }
 
 application {
-    mainClassName = "com.iceicelee.scooter.gameserver.connect.agent.HexDumpProxyServer"
+    mainClassName = "com.iceicelee.scooter.gameserver.connect.reverse.server.ReverseProxyServer"
 }
 
 task("runDiscardServer", JavaExec::class) {
