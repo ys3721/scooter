@@ -57,7 +57,7 @@ public class ClientConsultHandler extends ChannelInboundHandlerAdapter {
                             .channel(NioSocketChannel.class)
                             .handler(new LoggingHandler())
                             .handler(appLocalHandler);
-                    ChannelFuture connFuture = b.connect("127.0.0.1", heWantPort);
+                    ChannelFuture connFuture = b.connect("10.5.7.163", heWantPort);
                     connFuture.sync();
                     Channel appChannel = connFuture.channel();
                     Loggers.REVERSE_CLIENT.info("Connected the 127.0.0.1 app port " + heWantPort);
@@ -83,7 +83,7 @@ public class ClientConsultHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
-        cause.printStackTrace();
+        ctx.close();
     }
 
     public String getConsultIp() {

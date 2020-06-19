@@ -34,4 +34,8 @@ public class ProxyConsultServerHandler extends ChannelInboundHandlerAdapter {
         CSHandshakeMsg csHandshakeMsg = CSHandshakeMsg.parseFrom(bytes);
     }
 
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+            throws Exception {
+        ctx.close();
+    }
 }

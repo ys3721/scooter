@@ -13,36 +13,53 @@ import org.apache.commons.cli.Options;
  */
 public class ReverseProxyClient {
 
-    private String serverIp;
-
     public ReverseProxyClient(String[] args) {
         this.initConfig(args);
     }
 
     public static void main(String[] args) {
         ReverseProxyClient client = new ReverseProxyClient(args);
-        client.startConsultService();
+        client.init(args);
+        client.start();
     }
 
-    private void startConsultService() {
-        ClientConsultService clientConsultService = new ClientConsultService(this.serverIp);
-        clientConsultService.start();
+    private void init(String[] args) {
+        ReverseClientConfig clientConfig = this.initConfig(args);
+        this.initContext(clientConfig);
+
     }
 
+    private void initContext(ReverseClientConfig clientConfig) {
+        ClientContext.initContext(clientConfig);
+    }
 
-    private void initConfig(String[] args) {
+    private void start() {
+        ClientContext.getConsultService().start();
+    }
+
+    private ReverseClientConfig initConfig(String[] args) {
+        String serverIp = null;
+        String lanAppIp = null;
         CommandLineParser parser = new DefaultParser();
         Options options = new Options();
-        options.addOption("h", "remoteAddress", true, "connect to the remote address.");
+        options.addOption("h", "remoteAddress", true,
+                "connect to the remote proxy server address.");
+        options.addOption("t", "target lan ip", true,
+                "Lan ip where to proxy to.");
         try {
             CommandLine cmd = parser.parse(options, args);
-            this.serverIp = cmd.getOptionValue('h');
+            serverIp = cmd.getOptionValue('h');
+            lanAppIp = cmd.getOptionValue('t');
+            if (serverIp == null || lanAppIp == null) {
+                throw new IllegalArgumentException();
+            }
         } catch (Exception e) {
             HelpFormatter formatter = new HelpFormatter();
             String header = "This app will listen the port you give:\n\n";
             String footer = "\nPlease report issues at http://www.iceicelee.com/issues";
-            formatter.printHelp("java -jar ReverseProxyClient.jar", header, options, footer, true);
+            formatter.printHelp("sh scooter-server ", header, options, footer, true);
             System.exit(-1);
         }
+        return  new ReverseClientConfig(serverIp, lanAppIp);
     }
 }

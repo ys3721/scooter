@@ -1,5 +1,6 @@
 package com.iceicelee.scooter.gameserver.connect.reverse.client.consult;
 
+import com.iceicelee.scooter.gameserver.connect.reverse.constants.ReverseProxyContants;
 import com.iceicelee.scooter.gameserver.logger.Loggers;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.EventLoopGroup;
@@ -17,9 +18,9 @@ public class ClientConsultService {
 
     private int consultPort;
 
-    public ClientConsultService(String consultIp) {
-        this.consultIp = consultIp;
-        this.consultPort = 5238;
+    public ClientConsultService(String remoteProxyIp) {
+        this.consultIp = remoteProxyIp;
+        this.consultPort = ReverseProxyContants.INTERNAL_CONSULT_PORT;
     }
 
     public void start() {
