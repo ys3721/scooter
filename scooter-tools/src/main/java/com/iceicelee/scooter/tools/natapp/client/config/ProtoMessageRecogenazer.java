@@ -83,4 +83,9 @@ public class ProtoMessageRecogenazer {
     public static MessageLite getDefaultLiteById(int id) {
         return id2DefaultMsg.get(id);
     }
+
+    public static int getMessageNum(MessageLite messageLite) {
+        return msg2Nums.get(messageLite.getClass());
+    }
+
 }
