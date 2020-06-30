@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package com.iceicelee.scooter.tools.natapp.message;
+
+import "google/protobuf/descriptor.proto";
+
+// How to generate
+// ===============
+// $ protoc src\main\java\com\iceicelee\scooter\tools\natapp\message\ConsultMessageProtos.proto \
+//          --java_out=src/main/java
+//
+// Add @SuppressWarnings("all") to the generated code not to pollute IDE task list.
+option java_package = "com.iceicelee.scooter.tools.natapp.message";
+option java_outer_classname = "ConsultMessageProto";
+option optimize_for = SPEED;
+
+extend google.protobuf.MessageOptions {
+    int32 msgNumber = 10086;
+}
+
+message CSHandshakeMsg {
+    option (msgNumber) = 1001;
+    string clientInfo = 1;       //一些客户端的信息
+}
+
+message SCHandshakeMsg {
+    option (msgNumber) = 1002;
+    int32 externalPort = 1;     //server端监听的端口 该端口的数据会被转发
+}
+
+message SCNoticeSomeOneConnectedMsg {
+    option (msgNumber) = 1003;
+    string extraInfo = 1;
+}

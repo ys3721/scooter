@@ -25,7 +25,8 @@ public class ExternalProxyService {
     }
 
     public void start() {
-        Loggers.REVERSE_LOGGER.info("Begin listen the external port " + listenPort);
+        Loggers.REVERSE_LOGGER.info("Tunnel server 外部开始监听 " + this.listenPort
+                + " 用于把外部的链接转发到内网。");
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workGroup = new NioEventLoopGroup();
         try {
@@ -35,15 +36,10 @@ public class ExternalProxyService {
                     .handler(new LoggingHandler())
                     .childHandler(new ExternalProxyHandlerInitializer(server))
                     .childOption(ChannelOption.AUTO_READ, false)
-                    .bind(listenPort).sync().channel().closeFuture().sync();
+                    .bind(listenPort).sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            bossGroup.shutdownGracefully();
-            workGroup.shutdownGracefully();
         }
-
-        Loggers.REVERSE_LOGGER.info("ExternalProxyServer is shut down....");
     }
 
 }

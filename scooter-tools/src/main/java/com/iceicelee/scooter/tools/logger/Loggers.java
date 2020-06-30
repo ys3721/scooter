@@ -13,4 +13,6 @@ public class Loggers {
 
     public static final Logger REVERSE_CLIENT = LogManager.getLogger("scooter.reverse.client");
 
+    public static final Logger CLIENT_CONSULT = LogManager.getLogger("scooter.reverse.client.consult");
+
 }

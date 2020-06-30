@@ -6,6 +6,4 @@ package com.iceicelee.scooter.tools.natapp;
  */
 public class ReverseProxyConstants {
 
-    public static final int CONSULT_PORT = 5238;
-
 }

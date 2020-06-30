@@ -1,4 +1,4 @@
-package com.iceicelee.scooter.tools.natapp.client;
+package com.iceicelee.scooter.tools.natapp.client.config;
 
 
 import com.iceicelee.scooter.tools.natapp.ReverseProxyConstants;
@@ -12,9 +12,14 @@ import com.iceicelee.scooter.tools.natapp.ReverseProxyConstants;
 public class ReverseClientConfig {
 
     /**
-     * 用于穿透的转发服务器的ip地址，它默认监听在{@link ReverseProxyConstants#CONSULT_PORT}端口
+     * 用于穿透的转发服务器的ip地址
      */
-    private final String reverserProxyIp;
+    private final String remoteServerIp;
+
+    /**
+     * 远端的代理服务器的端口
+     */
+    private final int remoteServerPort;
 
     /**
      * 被代理的服务器的ip，因为到了内网之后，不仅仅可以连接localhost，也可以连接这个内网的其他机器
@@ -23,16 +28,21 @@ public class ReverseClientConfig {
     private final String targetLanIp;
 
 
-    public ReverseClientConfig(String serverIp, String targetLanIp) {
-        this.reverserProxyIp = serverIp;
+    public ReverseClientConfig(String remoteServerIp, int remoteServerPort, String targetLanIp) {
+        this.remoteServerIp = remoteServerIp;
+        this.remoteServerPort = remoteServerPort;
         this.targetLanIp = targetLanIp;
+    }
+
+    public int getRemoteServerPort() {
+        return remoteServerPort;
     }
 
     public String getTargetLanIp() {
         return targetLanIp;
     }
 
-    public String getReverserProxyIp() {
-        return reverserProxyIp;
+    public String getRemoteServerIp() {
+        return remoteServerIp;
     }
 }

@@ -1,5 +1,6 @@
 package com.iceicelee.scooter.tools.natapp.client;
 
+import com.iceicelee.scooter.tools.natapp.client.config.ReverseClientConfig;
 import com.iceicelee.scooter.tools.natapp.client.consult.ClientConsultService;
 
 /**
@@ -19,9 +20,10 @@ public class ClientContext {
      */
     private static ClientConsultService consultService;
 
+
     public static void initContext(ReverseClientConfig config) {
         ClientContext.config = config;
-        consultService = new ClientConsultService(config.getReverserProxyIp());
+        consultService = new ClientConsultService(config.getRemoteServerIp(), config.getRemoteServerPort());
     }
 
     public ReverseClientConfig getConfig() {

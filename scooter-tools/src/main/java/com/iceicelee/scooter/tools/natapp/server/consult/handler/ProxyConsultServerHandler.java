@@ -1,6 +1,5 @@
 package com.iceicelee.scooter.tools.natapp.server.consult.handler;
 
-import com.iceicelee.scooter.tools.natapp.message.HandshakeConsultMsg.CSHandshakeMsg;
 import com.iceicelee.scooter.tools.natapp.server.consult.ProxyConsultService;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -31,7 +30,6 @@ public class ProxyConsultServerHandler extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf = (ByteBuf) msg;
         byte[] bytes = new byte[byteBuf.readableBytes()];
         byteBuf.readBytes(bytes);
-        CSHandshakeMsg csHandshakeMsg = CSHandshakeMsg.parseFrom(bytes);
     }
 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)

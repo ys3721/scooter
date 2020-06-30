@@ -12,5 +12,8 @@ dependencies {
 }
 
 application {
-    mainClassName = "com.iceicelee.scooter.tools.BasicTool" 
+    //mainClassName = "com.iceicelee.scooter.gameserver.connect.reverse.server.ReverseProxyServer"
+    mainClassName = "com.iceicelee.scooter.gameserver.connect.reverse.client.ReverseProxyClient"
+    //mainClassName = "com.iceicelee.scooter.gameserver.connect.agent.HexDumpProxyServer"
 }
+

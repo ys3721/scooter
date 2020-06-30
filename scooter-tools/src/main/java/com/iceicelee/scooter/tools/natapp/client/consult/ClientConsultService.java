@@ -1,7 +1,6 @@
 package com.iceicelee.scooter.tools.natapp.client.consult;
 
 import com.iceicelee.scooter.tools.logger.Loggers;
-import com.iceicelee.scooter.tools.natapp.constants.ReverseProxyContants;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -9,51 +8,46 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
 
 /**
+ * 用于和服务端协商的服务
+ *
  * @author: Yao Shuai
  * @date: 2020/6/3 18:21
  */
 public class ClientConsultService {
 
-    private String consultIp;
+    private final String remoteServerIp;
 
-    private int consultPort;
+    private final int remoteServerPort;
 
-    public ClientConsultService(String remoteProxyIp) {
-        this.consultIp = remoteProxyIp;
-        this.consultPort = ReverseProxyContants.INTERNAL_CONSULT_PORT;
+    public ClientConsultService(String remoteServerIp, int remoteServerPort) {
+        this.remoteServerPort = remoteServerPort;
+        this.remoteServerIp = remoteServerIp;
     }
 
     public void start() {
-        Loggers.REVERSE_CLIENT.info("Begin connect the consult "+ this.getConsultIp() +" port " + this.getConsultPort());
+        Loggers.REVERSE_CLIENT.info("Begin connect the consult "+ this.getRemoteServerIp()
+                +" port " + this.getRemoteServerPort());
         EventLoopGroup workGroup = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
             b.group(workGroup)
                     .channel(NioSocketChannel.class)
                     .handler(new LoggingHandler())
-                    .handler(new ClientConsultHandler(consultIp))
-                    .connect(this.getConsultIp(), this.getConsultPort()).sync().channel().closeFuture().sync();
+                    .handler(new ClientConsultHandlerInitializer())
+                    .connect(this.getRemoteServerIp(), this.getRemoteServerPort()).sync().channel().closeFuture().sync();
         } catch (Exception e) {
-            Loggers.REVERSE_CLIENT.error("链接失败！", e);
+            Loggers.REVERSE_CLIENT.error("链接失败, 请检查远端服务是不是已经启动？！", e);
         } finally {
             workGroup.shutdownGracefully();
         }
         Loggers.REVERSE_LOGGER.info("ClientConsultService is shut down....");
     }
 
-    public String getConsultIp() {
-        return consultIp;
+    public String getRemoteServerIp() {
+        return remoteServerIp;
     }
 
-    public void setConsultIp(String consultIp) {
-        this.consultIp = consultIp;
-    }
-
-    public int getConsultPort() {
-        return consultPort;
-    }
-
-    public void setConsultPort(int consultPort) {
-        this.consultPort = consultPort;
+    public int getRemoteServerPort() {
+        return remoteServerPort;
     }
 }

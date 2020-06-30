@@ -1,6 +1,5 @@
 package com.iceicelee.scooter.tools.natapp.server;
 
-import com.iceicelee.scooter.tools.natapp.message.HandshakeConsultMsg.CSHandshakeMsg;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -15,10 +14,10 @@ public class ReverseClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        CSHandshakeMsg msg = CSHandshakeMsg.newBuilder().setPort(clientPort).build();
+       /* CSHandshakeMsg msg = CSHandshakeMsg.newBuilder().setPort(clientPort).build();
         byte[] msgByte = msg.toByteArray();
         ByteBuf buf = ctx.alloc().buffer(msgByte.length).writeBytes(msgByte);
-        ctx.channel().writeAndFlush(buf);
+        ctx.channel().writeAndFlush(buf);*/
     }
 
     @Override

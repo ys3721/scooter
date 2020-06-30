@@ -1,7 +1,6 @@
 package com.iceicelee.scooter.tools.natapp.client.consult;
 
 import com.iceicelee.scooter.tools.logger.Loggers;
-import com.iceicelee.scooter.tools.natapp.message.HandshakeConsultMsg.SCHandshakeMsg;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -9,15 +8,19 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
 
 /**
+ * 用于协商的handler
+ *
  * @author: Yao Shuai
  * @date: 2020/6/3 18:23
+ * @date: 2020/6/3 18:23
  */
-public class ClientConsultHandler extends ChannelInboundHandlerAdapter {
+public class ClientConsultHandler extends SimpleChannelInboundHandler {
 
     private String consultIp;
 
@@ -30,12 +33,12 @@ public class ClientConsultHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ctx.fireChannelActive();
+        Loggers.REVERSE_CLIENT.info("与远端服务已经链接！");
     }
 
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf byteBuf = (ByteBuf) msg;
-        Loggers.REVERSE_CLIENT.info(byteBuf);
+  /*  @Override
+    protected void channelRead0(ChannelHandlerContext ctx, SCMessage msg) throws Exception {
+        *//*Loggers.REVERSE_CLIENT.debug("收到了来自服务端的消息->" + msg);
         byte[] scConsultMsgByte =  new byte[byteBuf.readableBytes()];
         byteBuf.readBytes(scConsultMsgByte);
         SCHandshakeMsg scHandshakeMsg = SCHandshakeMsg.parseFrom(scConsultMsgByte);
@@ -75,9 +78,8 @@ public class ClientConsultHandler extends ChannelInboundHandlerAdapter {
                 }
             }
         });
-        thread.start();
-
-    }
+        thread.start();*//*
+    }*/
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
@@ -99,5 +101,10 @@ public class ClientConsultHandler extends ChannelInboundHandlerAdapter {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+
     }
 }
