@@ -1,6 +1,10 @@
 package com.iceicelee.scooter.tools.natapp.server.consult.handler;
 
+import com.google.protobuf.MessageLite;
+import com.iceicelee.scooter.tools.natapp.client.config.ProtoMessageRecogenazer;
+import com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto;
 import com.iceicelee.scooter.tools.natapp.server.consult.ProxyConsultService;
+import com.iceicelee.scooter.tools.natapp.server.processor.CSHandshakeMsgProcessorFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,10 +26,13 @@ public class ProxyConsultServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        //这个地方如果消息长度不够的话是有问题的
-        ByteBuf byteBuf = (ByteBuf) msg;
-        byte[] bytes = new byte[byteBuf.readableBytes()];
-        byteBuf.readBytes(bytes);
+        MessageLite messageLite = (MessageLite) msg;
+        //先这么写八
+        switch (ProtoMessageRecogenazer.getMessageNum(messageLite)){
+            case 1001:
+                CSHandshakeMsgProcessorFactory.getProcessor().process((ConsultMessageProto.CSHandshakeMsg) msg);
+                break;
+        }
     }
 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
