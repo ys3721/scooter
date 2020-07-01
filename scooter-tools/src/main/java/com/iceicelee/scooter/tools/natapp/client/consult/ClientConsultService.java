@@ -2,6 +2,7 @@ package com.iceicelee.scooter.tools.natapp.client.consult;
 
 import com.iceicelee.scooter.tools.logger.Loggers;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -33,14 +34,12 @@ public class ClientConsultService {
             b.group(workGroup)
                     .channel(NioSocketChannel.class)
                     .handler(new LoggingHandler())
-                    .handler(new ClientConsultHandlerInitializer())
-                    .connect(this.getRemoteServerIp(), this.getRemoteServerPort()).sync().channel().closeFuture().sync();
+                    .handler(new ClientConsultHandlerInitializer());
+            ChannelFuture connectFuture = b.connect(this.getRemoteServerIp(), this.getRemoteServerPort());
         } catch (Exception e) {
             Loggers.REVERSE_CLIENT.error("链接失败, 请检查远端服务是不是已经启动？！", e);
         } finally {
-            workGroup.shutdownGracefully();
         }
-        Loggers.REVERSE_LOGGER.info("ClientConsultService is shut down....");
     }
 
     public String getRemoteServerIp() {

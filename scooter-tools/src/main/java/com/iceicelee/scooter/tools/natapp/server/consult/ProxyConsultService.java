@@ -1,17 +1,14 @@
 package com.iceicelee.scooter.tools.natapp.server.consult;
 
 import com.iceicelee.scooter.tools.logger.Loggers;
-import com.iceicelee.scooter.tools.natapp.server.consult.handler.ProxyConsultServerHandler;
+import com.iceicelee.scooter.tools.natapp.server.consult.handler.ConsultServerHandlerInitialization;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 
 /**
  * @author: Yao Shuai
@@ -36,7 +33,7 @@ public class ProxyConsultService {
             b.group(bossGroup, workGroup)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler())
-                    .childHandler(new ProxyConsultServerHandler(this));
+                    .childHandler(new ConsultServerHandlerInitialization(this));
             ChannelFuture bindFuture = b.bind(this.getListenPort());
             bindFuture.addListener(future -> {
                 if (future.isSuccess()) { {

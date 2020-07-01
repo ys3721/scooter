@@ -1,14 +1,11 @@
 package com.iceicelee.scooter.tools.natapp.client.consult;
 
-import com.google.protobuf.MessageLite;
 import com.iceicelee.scooter.tools.natapp.client.config.ProtoMessageRecogenazer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.MessageToMessageDecoder;
 
-import java.awt.dnd.DragGestureRecognizer;
 import java.util.List;
 
 /**
@@ -21,8 +18,8 @@ public class ProtobufWithMsgIdDecoder extends MessageToMessageDecoder<ByteBuf> {
     protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) throws Exception {
         final byte[] array;
         final int offset;
-        final int length = msg.readableBytes();
         final int msgNumber = msg.readInt();
+        final int length = msg.readableBytes();
         if (msg.hasArray()) {
             array = msg.array();
             offset = msg.arrayOffset() + msg.readerIndex();

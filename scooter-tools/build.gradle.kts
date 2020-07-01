@@ -17,3 +17,6 @@ application {
     //mainClassName = "com.iceicelee.scooter.gameserver.connect.agent.HexDumpProxyServer"
 }
 
+tasks.withType<JavaCompile>() {
+    options.encoding = "UTF-8"
+}

@@ -7,7 +7,7 @@
     </Appenders>
     <Loggers>
         <Logger name="scooter" level="DEBUG"/>
-        <Root level="ERROR">
+        <Root level="DEBUG">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>

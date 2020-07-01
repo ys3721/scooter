@@ -12,16 +12,12 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  */
 public class ProxyConsultServerHandler extends ChannelInboundHandlerAdapter {
 
-    private final ProxyConsultService consultService;
-
-    public ProxyConsultServerHandler(ProxyConsultService service) {
-        this.consultService = service;
+    public ProxyConsultServerHandler() {
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
-        this.consultService.setConsultChannel(channel);
     }
 
     @Override
@@ -34,6 +30,7 @@ public class ProxyConsultServerHandler extends ChannelInboundHandlerAdapter {
 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
+        cause.printStackTrace();
         ctx.close();
     }
 }

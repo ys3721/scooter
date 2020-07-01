@@ -16,6 +16,3 @@ subprojects {
     version = "1.0"
 }
 
-tasks.withType<JavaCompile>() {
-    options.encoding = "UTF-8"
-}

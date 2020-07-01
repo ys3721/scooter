@@ -1,6 +1,7 @@
 package com.iceicelee.scooter.tools.natapp.client.consult;
 
 import com.iceicelee.scooter.tools.logger.Loggers;
+import com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.CSHandshakeMsg;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -32,8 +33,10 @@ public class ClientConsultHandler extends SimpleChannelInboundHandler {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.fireChannelActive();
-        Loggers.REVERSE_CLIENT.info("与远端服务已经链接！");
+        CSHandshakeMsg csHandshakeMsg = CSHandshakeMsg.newBuilder()
+                .setClientInfo("Client no infos").build();
+        ctx.writeAndFlush(csHandshakeMsg);
+        Loggers.REVERSE_CLIENT.info("channelActive handshake msg is seed! 与远端服务已经链接！");
     }
 
   /*  @Override

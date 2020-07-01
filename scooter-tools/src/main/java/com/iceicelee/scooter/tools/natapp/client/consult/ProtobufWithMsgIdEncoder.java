@@ -21,10 +21,9 @@ public class ProtobufWithMsgIdEncoder extends MessageToMessageEncoder<MessageLit
     @Override
     protected void encode(ChannelHandlerContext ctx, MessageLite msg, List<Object> out)
             throws Exception {
-        MessageLite messageLite = ((MessageLite) msg);
         int messageNum = ProtoMessageRecogenazer.getMessageNum(msg);
-        ByteBuf idBuf = Unpooled.buffer().writeInt(messageNum);
-        out.add(idBuf);
-        out.add(wrappedBuffer(messageLite.toByteArray()));
+        ByteBuf idAndContentBuf = Unpooled.buffer().writeInt(messageNum);
+        idAndContentBuf.writeBytes(((MessageLite) msg).toByteArray());
+        out.add(idAndContentBuf);
     }
 }
