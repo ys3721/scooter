@@ -29,7 +29,7 @@ public class EchoServer {
                             ch.pipeline().addLast(new EchoServerHandler());
                         }
                     })
-                    .bind(8080).sync().channel().closeFuture().sync();
+                    .bind(2020).sync().channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {

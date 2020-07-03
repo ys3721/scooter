@@ -4,7 +4,6 @@ import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.MessageLite;
 import com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 

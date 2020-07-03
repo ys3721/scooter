@@ -17,6 +17,7 @@ public class ExternalProxyHandlerInitializer extends ChannelInitializer<SocketCh
         this.server = server;
     }
 
+    @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ch.pipeline().addLast(new ExternalServerHandler(server));
     }

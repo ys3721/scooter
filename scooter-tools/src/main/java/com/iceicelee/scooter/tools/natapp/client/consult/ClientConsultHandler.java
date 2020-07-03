@@ -1,27 +1,23 @@
 package com.iceicelee.scooter.tools.natapp.client.consult;
 
+import com.google.protobuf.MessageLite;
 import com.iceicelee.scooter.tools.logger.Loggers;
+import com.iceicelee.scooter.tools.natapp.client.config.ProtoMessageRecogenazer;
+import com.iceicelee.scooter.tools.natapp.client.processor.SCNoticeSomeOneConnectedMsgProcessorFactory;
+import com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto;
 import com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.CSHandshakeMsg;
-import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
+import com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg;
+import com.iceicelee.scooter.tools.natapp.server.processor.CSHandshakeMsgProcessorFactory;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.EventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.logging.LoggingHandler;
 
 /**
  * 用于协商的handler
  *
  * @author: Yao Shuai
  * @date: 2020/6/3 18:23
- * @date: 2020/6/3 18:23
  */
-public class ClientConsultHandler extends SimpleChannelInboundHandler {
+public class ClientConsultHandler extends SimpleChannelInboundHandler<MessageLite> {
 
     private String consultIp;
 
@@ -39,8 +35,22 @@ public class ClientConsultHandler extends SimpleChannelInboundHandler {
         Loggers.REVERSE_CLIENT.info("channelActive handshake msg is seed! 与远端服务已经链接！");
     }
 
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, MessageLite msg) throws Exception {
+        MessageLite messageLite = (MessageLite) msg;
+        //先这么写八
+        switch (ProtoMessageRecogenazer.getMessageNum(messageLite)) {
+            case 1003:
+                SCNoticeSomeOneConnectedMsgProcessorFactory.getProcessor().process((SCNoticeSomeOneConnectedMsg) msg);
+                break;
+            default:
+                System.out.println("No processor for " + msg);
+        }
+    }
+
   /*  @Override
     protected void channelRead0(ChannelHandlerContext ctx, SCMessage msg) throws Exception {
+
         *//*Loggers.REVERSE_CLIENT.debug("收到了来自服务端的消息->" + msg);
         byte[] scConsultMsgByte =  new byte[byteBuf.readableBytes()];
         byteBuf.readBytes(scConsultMsgByte);
@@ -106,8 +116,5 @@ public class ClientConsultHandler extends SimpleChannelInboundHandler {
         this.port = port;
     }
 
-    @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-    }
 }

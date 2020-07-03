@@ -6,8 +6,7 @@ import "google/protobuf/descriptor.proto";
 
 // How to generate
 // ===============
-// $ protoc src\main\java\com\iceicelee\scooter\tools\natapp\message\ConsultMessageProtos.proto \
-//          --java_out=src/main/java
+// $ protoc src\main\java\com\iceicelee\scooter\tools\natapp\message\ConsultMessageProtos.proto --java_out=src/main/java
 //
 // Add @SuppressWarnings("all") to the generated code not to pollute IDE task list.
 option java_package = "com.iceicelee.scooter.tools.natapp.message";
@@ -30,5 +29,6 @@ message SCHandshakeMsg {
 
 message SCNoticeSomeOneConnectedMsg {
     option (msgNumber) = 1003;
-    string extraInfo = 1;
+    int32 iWantPort = 1; //服务器代理的端口，也就是他想连的端口
+    int32 connectMePort = 2; //我在这个端口等你
 }

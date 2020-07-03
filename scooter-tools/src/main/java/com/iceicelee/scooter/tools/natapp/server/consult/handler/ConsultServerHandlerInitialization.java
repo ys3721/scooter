@@ -15,7 +15,10 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
  */
 public class ConsultServerHandlerInitialization extends ChannelInitializer<SocketChannel> {
 
+    private ProxyConsultService consultService;
+
     public ConsultServerHandlerInitialization(ProxyConsultService service) {
+        this.consultService = service;
     }
 
     @Override
@@ -27,6 +30,6 @@ public class ConsultServerHandlerInitialization extends ChannelInitializer<Socke
         p.addLast(new ProtobufVarint32LengthFieldPrepender());
         p.addLast(new ProtobufWithMsgIdEncoder());
 
-        p.addLast(new ProxyConsultServerHandler());
+        p.addLast(new ProxyConsultServerHandler(consultService));
     }
 }

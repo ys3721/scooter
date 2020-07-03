@@ -1132,16 +1132,24 @@ public final class ConsultMessageProto {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string extraInfo = 1;</code>
-     * @return The extraInfo.
+     * <pre>
+     *服务器代理的端口，也就是他想连的端口
+     * </pre>
+     *
+     * <code>int32 iWantPort = 1;</code>
+     * @return The iWantPort.
      */
-    java.lang.String getExtraInfo();
+    int getIWantPort();
+
     /**
-     * <code>string extraInfo = 1;</code>
-     * @return The bytes for extraInfo.
+     * <pre>
+     *我在这个端口等你来
+     * </pre>
+     *
+     * <code>int32 connectMePort = 2;</code>
+     * @return The connectMePort.
      */
-    com.google.protobuf.ByteString
-        getExtraInfoBytes();
+    int getConnectMePort();
   }
   /**
    * Protobuf type {@code com.iceicelee.scooter.tools.natapp.message.SCNoticeSomeOneConnectedMsg}
@@ -1156,7 +1164,6 @@ public final class ConsultMessageProto {
       super(builder);
     }
     private SCNoticeSomeOneConnectedMsg() {
-      extraInfo_ = "";
     }
 
     @java.lang.Override
@@ -1189,10 +1196,14 @@ public final class ConsultMessageProto {
             case 0:
               done = true;
               break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 8: {
 
-              extraInfo_ = s;
+              iWantPort_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              connectMePort_ = input.readInt32();
               break;
             }
             default: {
@@ -1227,42 +1238,34 @@ public final class ConsultMessageProto {
               com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg.class, com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg.Builder.class);
     }
 
-    public static final int EXTRAINFO_FIELD_NUMBER = 1;
-    private volatile java.lang.Object extraInfo_;
+    public static final int IWANTPORT_FIELD_NUMBER = 1;
+    private int iWantPort_;
     /**
-     * <code>string extraInfo = 1;</code>
-     * @return The extraInfo.
+     * <pre>
+     *服务器代理的端口，也就是他想连的端口
+     * </pre>
+     *
+     * <code>int32 iWantPort = 1;</code>
+     * @return The iWantPort.
      */
     @java.lang.Override
-    public java.lang.String getExtraInfo() {
-      java.lang.Object ref = extraInfo_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        extraInfo_ = s;
-        return s;
-      }
+    public int getIWantPort() {
+      return iWantPort_;
     }
+
+    public static final int CONNECTMEPORT_FIELD_NUMBER = 2;
+    private int connectMePort_;
     /**
-     * <code>string extraInfo = 1;</code>
-     * @return The bytes for extraInfo.
+     * <pre>
+     *我在这个端口等你来
+     * </pre>
+     *
+     * <code>int32 connectMePort = 2;</code>
+     * @return The connectMePort.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString
-        getExtraInfoBytes() {
-      java.lang.Object ref = extraInfo_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        extraInfo_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getConnectMePort() {
+      return connectMePort_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1279,8 +1282,11 @@ public final class ConsultMessageProto {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getExtraInfoBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, extraInfo_);
+      if (iWantPort_ != 0) {
+        output.writeInt32(1, iWantPort_);
+      }
+      if (connectMePort_ != 0) {
+        output.writeInt32(2, connectMePort_);
       }
       unknownFields.writeTo(output);
     }
@@ -1291,8 +1297,13 @@ public final class ConsultMessageProto {
       if (size != -1) return size;
 
       size = 0;
-      if (!getExtraInfoBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, extraInfo_);
+      if (iWantPort_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, iWantPort_);
+      }
+      if (connectMePort_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, connectMePort_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1309,8 +1320,10 @@ public final class ConsultMessageProto {
       }
       com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg other = (com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg) obj;
 
-      if (!getExtraInfo()
-          .equals(other.getExtraInfo())) return false;
+      if (getIWantPort()
+          != other.getIWantPort()) return false;
+      if (getConnectMePort()
+          != other.getConnectMePort()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1322,8 +1335,10 @@ public final class ConsultMessageProto {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + EXTRAINFO_FIELD_NUMBER;
-      hash = (53 * hash) + getExtraInfo().hashCode();
+      hash = (37 * hash) + IWANTPORT_FIELD_NUMBER;
+      hash = (53 * hash) + getIWantPort();
+      hash = (37 * hash) + CONNECTMEPORT_FIELD_NUMBER;
+      hash = (53 * hash) + getConnectMePort();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1457,7 +1472,9 @@ public final class ConsultMessageProto {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        extraInfo_ = "";
+        iWantPort_ = 0;
+
+        connectMePort_ = 0;
 
         return this;
       }
@@ -1485,7 +1502,8 @@ public final class ConsultMessageProto {
       @java.lang.Override
       public com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg buildPartial() {
         com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg result = new com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg(this);
-        result.extraInfo_ = extraInfo_;
+        result.iWantPort_ = iWantPort_;
+        result.connectMePort_ = connectMePort_;
         onBuilt();
         return result;
       }
@@ -1534,9 +1552,11 @@ public final class ConsultMessageProto {
 
       public Builder mergeFrom(com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg other) {
         if (other == com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg.getDefaultInstance()) return this;
-        if (!other.getExtraInfo().isEmpty()) {
-          extraInfo_ = other.extraInfo_;
-          onChanged();
+        if (other.getIWantPort() != 0) {
+          setIWantPort(other.getIWantPort());
+        }
+        if (other.getConnectMePort() != 0) {
+          setConnectMePort(other.getConnectMePort());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1567,78 +1587,88 @@ public final class ConsultMessageProto {
         return this;
       }
 
-      private java.lang.Object extraInfo_ = "";
+      private int iWantPort_ ;
       /**
-       * <code>string extraInfo = 1;</code>
-       * @return The extraInfo.
+       * <pre>
+       *服务器代理的端口，也就是他想连的端口
+       * </pre>
+       *
+       * <code>int32 iWantPort = 1;</code>
+       * @return The iWantPort.
        */
-      public java.lang.String getExtraInfo() {
-        java.lang.Object ref = extraInfo_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          extraInfo_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      @java.lang.Override
+      public int getIWantPort() {
+        return iWantPort_;
       }
       /**
-       * <code>string extraInfo = 1;</code>
-       * @return The bytes for extraInfo.
-       */
-      public com.google.protobuf.ByteString
-          getExtraInfoBytes() {
-        java.lang.Object ref = extraInfo_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          extraInfo_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string extraInfo = 1;</code>
-       * @param value The extraInfo to set.
+       * <pre>
+       *服务器代理的端口，也就是他想连的端口
+       * </pre>
+       *
+       * <code>int32 iWantPort = 1;</code>
+       * @param value The iWantPort to set.
        * @return This builder for chaining.
        */
-      public Builder setExtraInfo(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        extraInfo_ = value;
+      public Builder setIWantPort(int value) {
+        
+        iWantPort_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string extraInfo = 1;</code>
+       * <pre>
+       *服务器代理的端口，也就是他想连的端口
+       * </pre>
+       *
+       * <code>int32 iWantPort = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearExtraInfo() {
+      public Builder clearIWantPort() {
         
-        extraInfo_ = getDefaultInstance().getExtraInfo();
+        iWantPort_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int connectMePort_ ;
+      /**
+       * <pre>
+       *我在这个端口等你来
+       * </pre>
+       *
+       * <code>int32 connectMePort = 2;</code>
+       * @return The connectMePort.
+       */
+      @java.lang.Override
+      public int getConnectMePort() {
+        return connectMePort_;
+      }
+      /**
+       * <pre>
+       *我在这个端口等你来
+       * </pre>
+       *
+       * <code>int32 connectMePort = 2;</code>
+       * @param value The connectMePort to set.
+       * @return This builder for chaining.
+       */
+      public Builder setConnectMePort(int value) {
+        
+        connectMePort_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string extraInfo = 1;</code>
-       * @param value The bytes for extraInfo to set.
+       * <pre>
+       *我在这个端口等你来
+       * </pre>
+       *
+       * <code>int32 connectMePort = 2;</code>
        * @return This builder for chaining.
        */
-      public Builder setExtraInfoBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public Builder clearConnectMePort() {
         
-        extraInfo_ = value;
+        connectMePort_ = 0;
         onChanged();
         return this;
       }
@@ -1736,12 +1766,12 @@ public final class ConsultMessageProto {
       "p.message\032 google/protobuf/descriptor.pr" +
       "oto\"+\n\016CSHandshakeMsg\022\022\n\nclientInfo\030\001 \001(" +
       "\t:\005\260\366\004\351\007\"-\n\016SCHandshakeMsg\022\024\n\014externalPo" +
-      "rt\030\001 \001(\005:\005\260\366\004\352\007\"7\n\033SCNoticeSomeOneConnec" +
-      "tedMsg\022\021\n\textraInfo\030\001 \001(\t:\005\260\366\004\353\007:3\n\tmsgN" +
-      "umber\022\037.google.protobuf.MessageOptions\030\346" +
-      "N \001(\005BC\n*com.iceicelee.scooter.tools.nat" +
-      "app.messageB\023ConsultMessageProtoH\001b\006prot" +
-      "o3"
+      "rt\030\001 \001(\005:\005\260\366\004\352\007\"N\n\033SCNoticeSomeOneConnec" +
+      "tedMsg\022\021\n\tiWantPort\030\001 \001(\005\022\025\n\rconnectMePo" +
+      "rt\030\002 \001(\005:\005\260\366\004\353\007:3\n\tmsgNumber\022\037.google.pr" +
+      "otobuf.MessageOptions\030\346N \001(\005BC\n*com.icei" +
+      "celee.scooter.tools.natapp.messageB\023Cons" +
+      "ultMessageProtoH\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1765,7 +1795,7 @@ public final class ConsultMessageProto {
     internal_static_com_iceicelee_scooter_tools_natapp_message_SCNoticeSomeOneConnectedMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_iceicelee_scooter_tools_natapp_message_SCNoticeSomeOneConnectedMsg_descriptor,
-        new java.lang.String[] { "ExtraInfo", });
+        new java.lang.String[] { "IWantPort", "ConnectMePort", });
     msgNumber.internalInit(descriptor.getExtensions().get(0));
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();

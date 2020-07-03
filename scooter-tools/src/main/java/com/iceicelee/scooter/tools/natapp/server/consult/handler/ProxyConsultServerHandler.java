@@ -5,7 +5,6 @@ import com.iceicelee.scooter.tools.natapp.client.config.ProtoMessageRecogenazer;
 import com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto;
 import com.iceicelee.scooter.tools.natapp.server.consult.ProxyConsultService;
 import com.iceicelee.scooter.tools.natapp.server.processor.CSHandshakeMsgProcessorFactory;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -16,12 +15,16 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  */
 public class ProxyConsultServerHandler extends ChannelInboundHandlerAdapter {
 
-    public ProxyConsultServerHandler() {
+    private ProxyConsultService consultService;
+
+    public ProxyConsultServerHandler(ProxyConsultService consultService) {
+        this.consultService = consultService;
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
+        this.consultService.setConsultChannel(channel);
     }
 
     @Override
@@ -35,6 +38,7 @@ public class ProxyConsultServerHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
+    @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
         cause.printStackTrace();

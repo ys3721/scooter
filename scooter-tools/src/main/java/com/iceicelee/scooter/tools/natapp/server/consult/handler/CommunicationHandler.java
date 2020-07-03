@@ -35,6 +35,8 @@ public class CommunicationHandler extends ChannelInboundHandlerAdapter {
         externalChannel.writeAndFlush(msg);
         extralContext.channel().read();
     }
+
+    @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
         ctx.close();

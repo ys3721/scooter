@@ -1,6 +1,8 @@
 package com.iceicelee.scooter.tools.natapp.server.consult;
 
 import com.iceicelee.scooter.tools.logger.Loggers;
+import com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg;
+import com.iceicelee.scooter.tools.natapp.message.ConsultMessageProto.SCNoticeSomeOneConnectedMsg.Builder;
 import com.iceicelee.scooter.tools.natapp.server.consult.handler.ConsultServerHandlerInitialization;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -25,7 +27,8 @@ public class ProxyConsultService {
     }
 
     public void start() {
-        Loggers.REVERSE_LOGGER.info("Tunnel server 开始监听 " + this.listenPort + " 用于内部协商一些东西。");
+        Loggers.REVERSE_LOGGER.info("Tunnel server 开始监听 " + this.listenPort
+                + " 用于内部协商一些东西。");
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workGroup = new NioEventLoopGroup();
         try {
@@ -37,7 +40,9 @@ public class ProxyConsultService {
             ChannelFuture bindFuture = b.bind(this.getListenPort());
             bindFuture.addListener(future -> {
                 if (future.isSuccess()) { {
-                    Loggers.REVERSE_LOGGER.info("Tunnel server 监听 " + this.listenPort + " 用于内部协商一些东西成功！");
+                    Loggers.REVERSE_LOGGER.info("Tunnel server 监听 " +
+                            this.listenPort +
+                            " 用于内部协商一些东西成功！");
                 }} else {
                     System.exit(-1);
                 }
@@ -58,10 +63,10 @@ public class ProxyConsultService {
      * @param listenPort
      */
     public void comeConnectMeAt(int passivePort, int listenPort) {
-/*        byte[] scHandshakeMsg = SCHandshakeMsg.newBuilder().setHandshakeResult(passivePort+","+listenPort).build().toByteArray();
-        ByteBuf byteBuf = this.getConsultChannel().alloc().buffer(scHandshakeMsg.length);
-        byteBuf.writeBytes(scHandshakeMsg);
-        this.getConsultChannel().writeAndFlush(byteBuf);*/
+        Builder builder = SCNoticeSomeOneConnectedMsg.newBuilder();
+        builder.setConnectMePort(passivePort);
+        builder.setIWantPort(listenPort);
+        this.getConsultChannel().writeAndFlush(builder.build());
     }
 
     public Channel getConsultChannel() {
