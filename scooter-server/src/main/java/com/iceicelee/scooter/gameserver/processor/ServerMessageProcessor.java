@@ -47,4 +47,14 @@ public class ServerMessageProcessor {
     public void setMainMessageProcessor(QueueMessageProcessor mainMessageProcessor) {
         this.mainMessageProcessor = mainMessageProcessor;
     }
+
+    /**
+     * 开启网络的监听
+     *
+     */
+    public void start() {
+        Loggers.SERVER_LOGGER.info("Will start net work ...");
+
+
+    }
 }

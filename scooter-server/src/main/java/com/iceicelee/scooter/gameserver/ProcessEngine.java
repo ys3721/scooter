@@ -18,7 +18,6 @@ public class ProcessEngine {
     private final IMessageProcessor messageProcessor = null;
 
 
-
     public ProcessEngine(int port, boolean useSsl, IMessageRecognizer messageRecognizer) {
         this.port = port;
         this.useSsl = useSsl;

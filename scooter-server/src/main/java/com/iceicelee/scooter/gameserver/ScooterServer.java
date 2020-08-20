@@ -30,6 +30,7 @@ public class ScooterServer {
 
 	private void launch() {
 
+
 	}
 
 	private static Object doSomeCalculation() {

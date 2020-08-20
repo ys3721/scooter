@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class Loggers {
 
-    public static final Logger REVERSE_LOGGER = LogManager.getLogger("scooter.reverse.server");
+    public static final Logger SERVER_LOGGER = LogManager.getLogger("scooter.reverse.server");
 
     public static final Logger REVERSE_CLIENT = LogManager.getLogger("scooter.reverse.client");
 
