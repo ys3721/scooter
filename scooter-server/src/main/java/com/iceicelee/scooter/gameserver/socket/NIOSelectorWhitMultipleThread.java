@@ -91,9 +91,9 @@ class MockThread extends Thread {
                         SelectionKey selectionKey = keyIterator.next();
                         keyIterator.remove();
                         if (selectionKey.isAcceptable()) {
-                            acceptHander(selectionKey);
+                            acceptHandler(selectionKey);
                         } else if (selectionKey.isReadable()) {
-                            readHandler(selectionKey);
+                           readHandler(selectionKey);
                         }
                     }
                 }
@@ -101,14 +101,30 @@ class MockThread extends Thread {
                 exception.printStackTrace();
             }
 
+            if (!queues[id].isEmpty() && !boss) {
+                try {
+                    SocketChannel clientChannel = queues[id].take();
+                    clientChannel.configureBlocking(false);
+                    clientChannel.register(selector, SelectionKey.OP_READ);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 
     private void readHandler(SelectionKey selectionKey) {
+        selectionKey.channel();//begin read
     }
 
-    private void acceptHander(SelectionKey selectionKey) {
-        
+
+    private void acceptHandler(SelectionKey selectionKey) throws IOException {
+        int num = index.getAndIncrement()% selectors;
+        ServerSocketChannel serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
+        SocketChannel client = serverSocketChannel.accept();
+        client.configureBlocking(false);
+        queues[num].add(client);
     }
 
 
