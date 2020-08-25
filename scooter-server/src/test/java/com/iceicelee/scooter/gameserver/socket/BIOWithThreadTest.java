@@ -20,7 +20,7 @@ public class BIOWithThreadTest {
 
     @Test
     public void testBIOWithThread() throws IOException, InterruptedException {
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 1; i++) {
             final int no = i;
             Thread tast = new Thread(new Runnable() {
                 @Override
@@ -40,6 +40,6 @@ public class BIOWithThreadTest {
             tast.start();
         }
         assertEquals(1, 1);
-        Thread.sleep(100000);
+        Thread.sleep(2000);
     }
 }
