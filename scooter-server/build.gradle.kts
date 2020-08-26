@@ -29,3 +29,7 @@ task("runDiscardClient", JavaExec::class) {
     classpath = sourceSets["main"].runtimeClasspath
     args = mutableListOf("127.0.0.1", "12135")
 }
+
+tasks.withType<JavaCompile>() {
+    options.setEncoding("UTF-8")
+}
