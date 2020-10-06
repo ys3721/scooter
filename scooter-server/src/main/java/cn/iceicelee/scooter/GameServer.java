@@ -1,5 +1,6 @@
 package cn.iceicelee.scooter;
 
+import cn.iceicelee.scooter.cn.iceicelee.scooter.log.Loggers;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -10,6 +11,9 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 
+/**
+ * @author yaoshuai
+ */
 public class GameServer {
     public static void main(String[] args) {
         NioEventLoopGroup boss = new NioEventLoopGroup();
@@ -24,14 +28,15 @@ public class GameServer {
                 ch.pipeline().addLast(
                         new HttpServerCodec(),
                         new HttpObjectAggregator(65535),
-                        new WebSocketServerProtocolHandler("/websocket")
+                        new WebSocketServerProtocolHandler("/websocket"),
+                        new GameMessageHandler()
                 );
             }
         });
         try {
             ChannelFuture future = b.bind(1234).sync();
             if (future.isSuccess()) {
-                System.out.println("服务器启动成功....");
+                Loggers.GAME_LOG.info("服务器启动成功....");
             }
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
