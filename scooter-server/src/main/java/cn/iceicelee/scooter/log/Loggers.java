@@ -1,4 +1,4 @@
-package cn.iceicelee.scooter.cn.iceicelee.scooter.log;
+package cn.iceicelee.scooter.log;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

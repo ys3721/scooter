@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package msg;
+option java_package = "cn.iceicelee.scooter.msg";
+
+enum MsgCode {
+    CG_USER_ENTRY = 0;
+    GC_USER_ENTRY = 1;
+    CG_WHO_ELSE_IS_HERE = 2;
+    GC_WHO_ELSE_IS_HERE = 3;
+}
+
+message CGUserEntry {
+    uint32 userId = 1;
+    string heroAvatar = 2;
+}
+
+message GCUserEntry {
+    uint32 userId = 1;
+    string heroAvatar = 2;
+}
