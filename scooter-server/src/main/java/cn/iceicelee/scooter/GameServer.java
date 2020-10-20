@@ -1,6 +1,7 @@
 package cn.iceicelee.scooter;
 
 import cn.iceicelee.scooter.log.Loggers;
+import cn.iceicelee.scooter.msg.decoder.GameMsgDecoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -29,13 +30,13 @@ public class GameServer {
                         new HttpServerCodec(),
                         new HttpObjectAggregator(65535),
                         new WebSocketServerProtocolHandler("/websocket"),
-
+                        new GameMsgDecoder(),
                         new GameMessageHandler()
                 );
             }
         });
         try {
-            ChannelFuture future = b.bind(1234).sync();
+            ChannelFuture future = b.bind(12345).sync();
             if (future.isSuccess()) {
                 Loggers.GAME_LOG.info("服务器启动成功....");
             }
