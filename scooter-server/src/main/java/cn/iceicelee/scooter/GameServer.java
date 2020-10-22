@@ -2,6 +2,7 @@ package cn.iceicelee.scooter;
 
 import cn.iceicelee.scooter.log.Loggers;
 import cn.iceicelee.scooter.msg.decoder.GameMsgDecoder;
+import cn.iceicelee.scooter.msg.encoder.GameMsgEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -31,6 +32,7 @@ public class GameServer {
                         new HttpObjectAggregator(65535),
                         new WebSocketServerProtocolHandler("/websocket"),
                         new GameMsgDecoder(),
+                        new GameMsgEncoder(),
                         new GameMessageHandler()
                 );
             }

@@ -10,6 +10,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 
 import static cn.iceicelee.scooter.msg.GameMessage.MsgCode.CG_USER_ENTRY_VALUE;
+import static cn.iceicelee.scooter.msg.GameMessage.MsgCode.CG_WHO_ELSE_IS_HERE_VALUE;
 
 
 /**
@@ -37,12 +38,14 @@ public class GameMsgDecoder extends SimpleChannelInboundHandler {
             case CG_USER_ENTRY_VALUE:
                 gameMsg = GameMessage.CGUserEntry.parseFrom(byteArrays);
                 break;
+            case CG_WHO_ELSE_IS_HERE_VALUE:
+                break;
         }
         if (gameMsg != null) {
             channelHandlerContext.fireChannelRead(gameMsg);
             Loggers.GAME_LOG.debug(gameMsg);
         } else {
-            Loggers.GAME_LOG.error("Unknown message id " + msgId);
+            Loggers.GAME_LOG.error("未知的接收消息 " + msgId);
         }
     }
 
