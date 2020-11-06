@@ -2,7 +2,6 @@ package cn.iceicelee.scooter.msg.decoder;
 
 import cn.iceicelee.scooter.log.Loggers;
 import cn.iceicelee.scooter.msg.GameMessage;
-import cn.iceicelee.scooter.msg.GameMessage.MsgCode;
 import com.google.protobuf.GeneratedMessageV3;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -11,6 +10,7 @@ import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 
 import static cn.iceicelee.scooter.msg.GameMessage.MsgCode.CG_USER_ENTRY_VALUE;
 import static cn.iceicelee.scooter.msg.GameMessage.MsgCode.CG_WHO_ELSE_IS_HERE_VALUE;
+import static cn.iceicelee.scooter.msg.GameMessage.MsgCode.CG_USER_MOVE_TO_VALUE;
 
 
 /**
@@ -39,6 +39,10 @@ public class GameMsgDecoder extends SimpleChannelInboundHandler {
                 gameMsg = GameMessage.CGUserEntry.parseFrom(byteArrays);
                 break;
             case CG_WHO_ELSE_IS_HERE_VALUE:
+                gameMsg = GameMessage.CGWhoElseIsHere.parseFrom(byteArrays);
+                break;
+            case CG_USER_MOVE_TO_VALUE:
+                gameMsg = GameMessage.CGUserMoveTo.parseFrom(byteArrays);
                 break;
         }
         if (gameMsg != null) {

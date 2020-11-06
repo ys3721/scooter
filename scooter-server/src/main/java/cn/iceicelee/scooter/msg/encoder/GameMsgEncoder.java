@@ -3,6 +3,7 @@ package cn.iceicelee.scooter.msg.encoder;
 import cn.iceicelee.scooter.log.Loggers;
 import cn.iceicelee.scooter.msg.GameMessage;
 import cn.iceicelee.scooter.msg.GameMessage.GCUserEntry;
+import cn.iceicelee.scooter.msg.GameMessage.MsgCode;
 import com.google.protobuf.GeneratedMessageV3;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,6 +26,12 @@ public class GameMsgEncoder extends ChannelOutboundHandlerAdapter {
         int msgCode = -1;
         if (msg instanceof GameMessage.GCUserEntry) {
             msgCode = GameMessage.MsgCode.GC_USER_ENTRY_VALUE;
+        } else if (msg instanceof  GameMessage.GCWhoElseIsHere) {
+            msgCode = MsgCode.GC_WHO_ELSE_IS_HERE_VALUE;
+        } else if (msg instanceof  GameMessage.GCUserMoveToResult) {
+            msgCode = MsgCode.GC_USER_MOVE_TO_RESULT_VALUE;
+        } else if (msg instanceof  GameMessage.GCUserQuitResult) {
+            msgCode = MsgCode.GC_USER_QUIT_RESULT_VALUE;
         } else {
             Loggers.GAME_LOG.error("未知的发送消息 " + msgCode);
             return;

@@ -18,6 +18,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
  */
 public class GameServer {
     public static void main(String[] args) {
+
         NioEventLoopGroup boss = new NioEventLoopGroup();
         NioEventLoopGroup worker = new NioEventLoopGroup();
 

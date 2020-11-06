@@ -8,6 +8,11 @@ enum MsgCode {
     GC_USER_ENTRY = 1;
     CG_WHO_ELSE_IS_HERE = 2;
     GC_WHO_ELSE_IS_HERE = 3;
+    CG_USER_MOVE_TO = 4;
+    GC_USER_MOVE_TO_RESULT = 5;
+    GC_USER_QUIT_RESULT = 6;
+
+
 }
 
 message CGUserEntry {
@@ -18,4 +23,31 @@ message CGUserEntry {
 message GCUserEntry {
     uint32 userId = 1;
     string heroAvatar = 2;
+}
+
+message CGWhoElseIsHere {
+}
+
+message GCWhoElseIsHere {
+    repeated UserInfo userInfo = 1;
+
+    message UserInfo {
+        uint32 userId = 1;
+        string heroAvatar = 2;
+    }
+}
+
+message CGUserMoveTo {
+    float moveToPosX = 1;
+    float moveToPosY = 2;
+}
+
+message GCUserMoveToResult {
+    uint32 moveUserId = 1;
+    float moveToPosX = 2;
+    float moveToPosY = 3;
+}
+
+message GCUserQuitResult {
+    uint32 quitUserId = 1;
 }
